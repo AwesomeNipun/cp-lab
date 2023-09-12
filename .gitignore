@@ -1,0 +1,35 @@
+# Compiled object files
+*.o
+
+# Compiled dynamic libraries and executables
+*.so
+*.out
+
+# Compiled static libraries
+*.a
+
+# Executable binary (if not using a different name)
+my_program
+
+# IDE-specific files (CLion)
+.idea/
+
+# CMake build directory
+CMakeFiles/
+cmake-build-debug/
+CMakeCache.txt
+CMakeScripts/
+CMakeTmp/
+
+# Compiled CMake files
+CMakeLists.txt.user
+
+# Generated Makefiles
+Makefile
+
+# OS or Editor-generated files
+.DS_Store
+.vscode/
+*.swo
+*.swp
+*~
