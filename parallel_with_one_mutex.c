@@ -1,5 +1,6 @@
-// this file is to implement the serial implementation of the linked list operations
+// this file is to implement the parallel implementation of the linked list operations with one mutex
 #include <stdio.h>
+#include <pthread.h>
 #include "operations.h"
 #include <stdlib.h>
 #include <time.h>
@@ -11,17 +12,56 @@ const double member_fraction = 0.99; // fraction of operations that are member o
 const double insert_fraction = 0.005; // fraction of operations that are insert operations
 const double delete_fraction = 0.005; // fraction of operations that are delete operations
 
+int thread_count = 1; // number of threads
+
 int member_count = (int) (member_fraction * m);
 int insert_count = (int) (insert_fraction * m);
 int delete_count = (int) (delete_fraction * m);
 
+struct list_node* head = NULL;
+int* op_array;
+
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER; // initialize the mutex
+int division;
+
 void initialize_list(struct list_node** head, int n);
+
+// perform_operations performs the operations in the op_array for a given thread
+void* perform_operations (void *rank) {
+    int thread_rank = (int) rank;
+    // start for the thread
+    int start = thread_rank * division;
+    // end for the thread
+    int end = start + division;
+
+    int* array = op_array;
+
+    // divide the work among threads
+    for (int j=start; j<end; j++){
+        int rand_value = rand() % (2<<16);
+
+        if (array[j] % 3 == 0) {
+            pthread_mutex_lock(&mutex);
+            Member(rand_value, head);
+            pthread_mutex_unlock(&mutex);
+        } else if (array[j] % 3 == 1) {
+            pthread_mutex_lock(&mutex);
+            Insert(rand_value, &head);
+            pthread_mutex_unlock(&mutex);
+        } else {
+            pthread_mutex_lock(&mutex);
+            Delete(rand_value, &head);
+            pthread_mutex_unlock(&mutex);
+        }
+    }
+    return NULL;
+}
 
 int main() {
     clock_t start_time, end_time;
 
     // create the array of operations
-    int* op_array = createArray(m, member_fraction, insert_fraction, delete_fraction);
+    op_array = createArray(m, member_fraction, insert_fraction, delete_fraction);
 
     // print array and count the number of each operation
     int i;
@@ -43,22 +83,28 @@ int main() {
     printf("Insert count: %d\n", insert_count);
     printf("Delete count: %d\n", delete_count);
 
-    struct list_node* head = NULL;
     initialize_list(&head, n);
+
+    pthread_t threads[thread_count];
+
+    division = m / thread_count;
 
     // measure the time taken to perform the operations
     start_time = clock();
 
-    for (int j=0; j<n; j++) {
-        int rand_value = rand() % (2 << 16);
-        if (op_array[j] % 3 == 0) {
-            Member(rand_value, head);
-        } else if (op_array[j] % 3 == 1) {
-            Insert(rand_value, &head);
-        } else {
-            Delete(rand_value, &head);
-        }
+    // create thread handlers array
+    pthread_t* thread_handles = malloc(thread_count * sizeof(pthread_t));
+
+    // create the threads
+    for (int i = 0; i < thread_count; i++) {
+        pthread_create(&thread_handles[i], NULL, perform_operations, (void*) i);
     }
+
+    // wait for the threads to finish
+    for (int i = 0; i < thread_count; i++) {
+        pthread_join(thread_handles[i], NULL);
+    }
+
     end_time = clock();
     printf("Time taken: %f\n", ((double) (end_time - start_time)) / CLOCKS_PER_SEC);
 
@@ -83,5 +129,6 @@ void initialize_list(struct list_node** head, int n) {
         count++;
     }
 }
+
 
 

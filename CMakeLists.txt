@@ -7,4 +7,6 @@ add_executable(Source_Code operations.c
         serial_impl.c
         operations.h
         random_array.c
-        random_array.h)
+        random_array.h
+        parallel_with_one_mutex.c
+        Parallel_with_rwlock.c)
