@@ -3,4 +3,4 @@ project(Source_Code C)
 
 set(CMAKE_C_STANDARD 23)
 
-add_executable(Source_Code main.c)
+add_executable(Source_Code operations.c)
