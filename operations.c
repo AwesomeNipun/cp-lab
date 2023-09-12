@@ -1,11 +1,6 @@
 #include <stdio.h>
 #include <malloc.h>
-
-// list_node is a struct that contains an integer and a pointer to the next node
-struct list_node {
-    int data;
-    struct list_node *next;
-};
+#include "operations.h"
 
 // Member returns 1 if value is in the linked list, 0 otherwise
 int Member (int value, struct list_node* head) {
@@ -68,4 +63,16 @@ int Delete (int value, struct list_node** head) {
     } else {
         return 0;
     }
+}
+
+// traverse_list prints the linked list
+
+void traverse_list(struct list_node* head) {
+    struct list_node* curr = head;
+
+    while (curr != NULL) {
+        printf("%d ", curr->data);
+        curr = curr->next;
+    }
+    printf("\n");
 }
