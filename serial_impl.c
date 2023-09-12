@@ -10,9 +10,9 @@ const double member_fraction = 0.99; // fraction of operations that are member o
 const double insert_fraction = 0.005; // fraction of operations that are insert operations
 const double delete_fraction = 0.005; // fraction of operations that are delete operations
 
-double member_count = member_fraction * m;
-double insert_count = insert_fraction * m;
-double delete_count = delete_fraction * m;
+int member_count = (int) (member_fraction * m);
+int insert_count = (int) (insert_fraction * m);
+int delete_count = (int) (delete_fraction * m);
 
 void initialize_list(struct list_node** head, int n);
 
