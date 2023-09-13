@@ -5,7 +5,7 @@
 #include <time.h>
 #include "random_array.h"
 
-int n = 1000; // number of elements in the list
+/*int n = 1000; // number of elements in the list
 const int m = 10000; // number of operations
 const double member_fraction = 0.99; // fraction of operations that are member operations
 const double insert_fraction = 0.005; // fraction of operations that are insert operations
@@ -15,13 +15,13 @@ int member_count = (int) (member_fraction * m);
 int insert_count = (int) (insert_fraction * m);
 int delete_count = (int) (delete_fraction * m);
 
-void initialize_list(struct list_node** head, int n);
+void initialize_list(struct list_node** head, int n);*/
 
-int main() {
+double serial_impl(struct list_node* head, int n, int m, int* op_array) {
     clock_t start_time, end_time;
 
     // create the array of operations
-    int* op_array = createArray(m, member_fraction, insert_fraction, delete_fraction);
+//    int* op_array = createArray(m, member_fraction, insert_fraction, delete_fraction);
 
     // print array and count the number of each operation
     int i;
@@ -43,8 +43,10 @@ int main() {
     printf("Insert count: %d\n", insert_count);
     printf("Delete count: %d\n", delete_count);
 
+/*
     struct list_node* head = NULL;
     initialize_list(&head, n);
+*/
 
     // measure the time taken to perform the operations
     start_time = clock();
@@ -61,10 +63,11 @@ int main() {
     }
     end_time = clock();
     printf("Time taken: %f\n", ((double) (end_time - start_time)) / CLOCKS_PER_SEC);
-
-    return 0;
+//    traverse_list(head);
+    return ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
 }
 
+/*
 // initialize_list initializes the list with n random values
 void initialize_list(struct list_node** head, int n) {
 
@@ -83,5 +86,6 @@ void initialize_list(struct list_node** head, int n) {
         count++;
     }
 }
+*/
 
 
