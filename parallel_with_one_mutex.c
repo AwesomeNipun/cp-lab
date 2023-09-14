@@ -5,8 +5,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include "random_array.h"
+#include "globals.h"
 
-int n = 1000; // number of elements in the list
+/*int n = 1000; // number of elements in the list
 const int m = 10000; // number of operations
 const double member_fraction = 0.99; // fraction of operations that are member operations
 const double insert_fraction = 0.005; // fraction of operations that are insert operations
@@ -18,21 +19,24 @@ int member_count = (int) (member_fraction * m);
 int insert_count = (int) (insert_fraction * m);
 int delete_count = (int) (delete_fraction * m);
 
+*/
+/*
 struct list_node* head = NULL;
-int* op_array;
+int* op_array;*/
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER; // initialize the mutex
-int division;
+int division_one_mutex;
 
-void initialize_list(struct list_node** head, int n);
+/*
+void initialize_list(struct list_node** head, int n);*/
 
 // perform_operations performs the operations in the op_array for a given thread
 void* perform_operations (void *rank) {
     int thread_rank = (int) rank;
     // start for the thread
-    int start = thread_rank * division;
+    int start = thread_rank * division_one_mutex;
     // end for the thread
-    int end = start + division;
+    int end = start + division_one_mutex;
 
     int* array = op_array;
 
@@ -57,11 +61,11 @@ void* perform_operations (void *rank) {
     return NULL;
 }
 
-int main() {
+double parallel_with_one_mutex(struct list_node* head, int thread_count) {
     clock_t start_time, end_time;
 
     // create the array of operations
-    op_array = createArray(m, member_fraction, insert_fraction, delete_fraction);
+//    op_array = createArray(m, member_fraction, insert_fraction, delete_fraction);
 
     // print array and count the number of each operation
     int i;
@@ -83,11 +87,11 @@ int main() {
     printf("Insert count: %d\n", insert_count);
     printf("Delete count: %d\n", delete_count);
 
-    initialize_list(&head, n);
+//    initialize_list(&head, n);
 
     pthread_t threads[thread_count];
 
-    division = m / thread_count;
+    division_one_mutex = m / thread_count;
 
     // measure the time taken to perform the operations
     start_time = clock();
@@ -108,9 +112,9 @@ int main() {
     end_time = clock();
     printf("Time taken: %f\n", ((double) (end_time - start_time)) / CLOCKS_PER_SEC);
 
-    return 0;
+    return ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
 }
-
+/*
 // initialize_list initializes the list with n random values
 void initialize_list(struct list_node** head, int n) {
 
@@ -128,7 +132,7 @@ void initialize_list(struct list_node** head, int n) {
         }
         count++;
     }
-}
+}*/
 
 
 

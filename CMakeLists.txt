@@ -12,4 +12,6 @@ add_executable(Source_Code operations.c
         Parallel_with_rwlock.c
         main.c
         serial_impl.h
-        parallel_with_one_mutex.h)
+        parallel_with_one_mutex.h
+        globals.h
+        Parallel_with_rwlock.h)

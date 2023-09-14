@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "random_array.h"
+#include "globals.h"
 
 /*int n = 1000; // number of elements in the list
 const int m = 10000; // number of operations
@@ -17,7 +18,7 @@ int delete_count = (int) (delete_fraction * m);
 
 void initialize_list(struct list_node** head, int n);*/
 
-double serial_impl(struct list_node* head, int n, int m, int* op_array) {
+double serial_impl(struct list_node* head) {
     clock_t start_time, end_time;
 
     // create the array of operations

@@ -6,6 +6,8 @@
 #include "random_array.h"
 #include "serial_impl.h"
 #include "parallel_with_one_mutex.h"
+#include "globals.h"
+#include "Parallel_with_rwlock.h"
 
 double cases[3][3] = {
         {0.99, 0.005, 0.005},
@@ -15,7 +17,9 @@ double cases[3][3] = {
 int thread_counts[4] = {1, 2, 4, 8};
 int n = 1000;
 int m = 10000;
+int ROUNDS = 10;
 struct list_node *head = NULL;
+int *op_array;
 
 void initialize_list(struct list_node **head, int n);
 
@@ -23,30 +27,32 @@ struct list_node *copyList(struct list_node *head);
 
 void destroyLinkedList(struct list_node *head);
 
-int *op_array;
+
 
 int main() {
     initialize_list(&head, n);
     for (int i = 0; i < 3; i++) {
-        op_array = createArray(m, cases[i][0], cases[i][1], cases[i][2]);
-        struct list_node *dup_head = copyList(head);
-        double time = serial_impl(dup_head, n, m, op_array);
-        destroyLinkedList(dup_head);
-        dup_head = NULL;
-        printf("Time taken in main serial: %f\n", time);
-
-        for (int j = 0; j < 4; j++){
-            /*dup_head = copyList(head);
-            time = parallel_with_one_mutex(dup_head, n, m, op_array,thread_counts[j]);
+        for (int r = 0; r< ROUNDS ; r++){
+            op_array = createArray(m, cases[i][0], cases[i][1], cases[i][2]);
+            struct list_node *dup_head = copyList(head);
+            double time = serial_impl(dup_head);
             destroyLinkedList(dup_head);
-            printf("Time taken in main parallel mutex: %f\n", time);
-            dup_head = NULL;*/
+            dup_head = NULL;
+            printf("Time taken in main serial: %f\n", time);
 
-            /*dup_head = copyList(head);
-            time = serial_impl(dup_head, n, m, op_array);
-            destroyLinkedList(dup_head);
-            printf("Time taken in main parallel: %f\n", time);*/
+            for (int j = 0; j < 4; j++){
+                dup_head = copyList(head);
+                time = parallel_with_one_mutex(dup_head ,thread_counts[j]);
+                destroyLinkedList(dup_head);
+                printf("Time taken in main parallel mutex with %d threads: %f\n", thread_counts[j], time);
+                dup_head = NULL;
 
+                dup_head = copyList(head);
+                time = parallel_with_rwlock(dup_head, n, m, op_array,thread_counts[j]);
+                destroyLinkedList(dup_head);
+                printf("Time taken in main parallel  with %d threads: %f\n",thread_counts[j], time);
+
+            }
         }
     }
 }
