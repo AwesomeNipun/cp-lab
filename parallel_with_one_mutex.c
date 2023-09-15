@@ -24,7 +24,7 @@ int delete_count = (int) (delete_fraction * m);
 struct list_node* head = NULL;
 int* op_array;*/
 
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER; // initialize the mutex
+//pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER; // initialize the mutex
 int division_one_mutex;
 
 /*
@@ -67,37 +67,37 @@ double parallel_with_one_mutex(struct list_node* head, int thread_count) {
     // create the array of operations
 //    op_array = createArray(m, member_fraction, insert_fraction, delete_fraction);
 
-    // print array and count the number of each operation
-    int i;
-    int member_count = 0;
-    int insert_count = 0;
-    int delete_count = 0;
-
-    for (i = 0; i < m; i++) {
-        if (op_array[i] == 0) {
-            member_count++;
-        } else if (op_array[i] == 1) {
-            insert_count++;
-        } else {
-            delete_count++;
-        }
-    }
-
-    printf("Member count: %d\n", member_count);
-    printf("Insert count: %d\n", insert_count);
-    printf("Delete count: %d\n", delete_count);
+//    // print array and count the number of each operation
+//    int i;
+//    int member_count = 0;
+//    int insert_count = 0;
+//    int delete_count = 0;
+//
+//    for (i = 0; i < m; i++) {
+//        if (op_array[i] == 0) {
+//            member_count++;
+//        } else if (op_array[i] == 1) {
+//            insert_count++;
+//        } else {
+//            delete_count++;
+//        }
+//    }
+//
+//    printf("Member count: %d\n", member_count);
+//    printf("Insert count: %d\n", insert_count);
+//    printf("Delete count: %d\n", delete_count);
 
 //    initialize_list(&head, n);
 
-    pthread_t threads[thread_count];
+//    pthread_t threads[thread_count];
 
     division_one_mutex = m / thread_count;
 
-    // measure the time taken to perform the operations
-    start_time = clock();
-
     // create thread handlers array
     pthread_t* thread_handles = malloc(thread_count * sizeof(pthread_t));
+
+    // measure the time taken to perform the operations
+    start_time = clock();
 
     // create the threads
     for (int i = 0; i < thread_count; i++) {
@@ -110,7 +110,7 @@ double parallel_with_one_mutex(struct list_node* head, int thread_count) {
     }
 
     end_time = clock();
-    printf("Time taken: %f\n", ((double) (end_time - start_time)) / CLOCKS_PER_SEC);
+//    printf("Time taken: %f\n", ((double) (end_time - start_time)) / CLOCKS_PER_SEC);
 
     return ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
 }

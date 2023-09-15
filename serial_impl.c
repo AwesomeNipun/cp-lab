@@ -24,25 +24,25 @@ double serial_impl(struct list_node* head) {
     // create the array of operations
 //    int* op_array = createArray(m, member_fraction, insert_fraction, delete_fraction);
 
-    // print array and count the number of each operation
-    int i;
-    int member_count = 0;
-    int insert_count = 0;
-    int delete_count = 0;
-
-    for (i = 0; i < m; i++) {
-        if (op_array[i] == 0) {
-            member_count++;
-        } else if (op_array[i] == 1) {
-            insert_count++;
-        } else {
-            delete_count++;
-        }
-    }
-
-    printf("Member count: %d\n", member_count);
-    printf("Insert count: %d\n", insert_count);
-    printf("Delete count: %d\n", delete_count);
+//    // print array and count the number of each operation
+//    int i;
+//    int member_count = 0;
+//    int insert_count = 0;
+//    int delete_count = 0;
+//
+//    for (i = 0; i < m; i++) {
+//        if (op_array[i] == 0) {
+//            member_count++;
+//        } else if (op_array[i] == 1) {
+//            insert_count++;
+//        } else {
+//            delete_count++;
+//        }
+//    }
+//
+//    printf("Member count: %d\n", member_count);
+//    printf("Insert count: %d\n", insert_count);
+//    printf("Delete count: %d\n", delete_count);
 
 /*
     struct list_node* head = NULL;
@@ -63,7 +63,7 @@ double serial_impl(struct list_node* head) {
         }
     }
     end_time = clock();
-    printf("Time taken: %f\n", ((double) (end_time - start_time)) / CLOCKS_PER_SEC);
+//    printf("Time taken: %f\n", ((double) (end_time - start_time)) / CLOCKS_PER_SEC);
 //    traverse_list(head);
     return ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
 }
