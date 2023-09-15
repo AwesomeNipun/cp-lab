@@ -4,11 +4,16 @@
 
 // Member returns 1 if value is in the linked list, 0 otherwise
 int Member (int value, struct list_node* head) {
+
+    int count = 0;
     struct list_node* curr = head;
 
-    while (curr != NULL && curr->data < value)
+    while (curr != NULL && curr->data < value) {
         curr = curr->next;
+        count++;
+    }
 
+//    printf("Number of nodes traversed: %d\n", count);
     if (curr == NULL || curr->data > value) // if the value is not in the list
         return 0;
     else
@@ -70,9 +75,11 @@ int Delete (int value, struct list_node** head) {
 void traverse_list(struct list_node* head) {
     struct list_node* curr = head;
 
+    int count = 0;
+
     while (curr != NULL) {
-        printf("%d ", curr->data);
         curr = curr->next;
+        count++;
     }
-    printf("\n");
+    printf("count: %d\n", count);
 }

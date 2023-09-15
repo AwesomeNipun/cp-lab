@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <malloc.h>
+#include "globals.h"
 
 // array to store the operations to be performed
 int* createArray(int m, double member, double insert, double delete){
+
+    // free the memory
+    free(op_array);
 
     int members = (int) (member*m);
     int insertions = (int) (insert*m);

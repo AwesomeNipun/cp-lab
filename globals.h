@@ -3,7 +3,7 @@
 #include <pthread.h> // Include the pthread header
 
 extern int *op_array;
-extern struct list_node *head;
+extern struct list_node *dup_head;
 extern int n;
 extern int m;
 extern pthread_mutex_t mutex;
